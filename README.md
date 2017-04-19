@@ -1,0 +1,2 @@
+# MavenTemplates
+Templates for Maven
