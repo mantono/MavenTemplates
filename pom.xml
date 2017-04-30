@@ -5,28 +5,54 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mantono</groupId>
-    <artifactId>ARTIFACT-NAME</artifactId>
+    <artifactId>ARTIFACT-ID</artifactId>
     <version>0.1</version>
-
+    <name>NAME</name>
+    
+	<properties>
+		<kotlin.version>1.1.2</kotlin.version>
+		<jdk.version>1.8</jdk.version>
+		<kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+	</properties>
+    
     <dependencies>
-        <dependency>
-            <groupId>group.package</groupId>
-            <artifactId>DEPENDENCY-ARTIFACT</artifactId>
-            <version>0.1</version>
+		<!--
+		<dependency>
+			<groupId>group.package</groupId>
+			<artifactId>DEPENDENCY-ARTIFACT</artifactId>
+			<version>0.1</version>
+		</dependency>
+		-->
             
-            <!-- For Kotlin support -->
+		<!-- For Kotlin support -->
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>1.1.1</version>
+            <artifactId>kotlin-stdlib-jre8</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test-junit</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     
-    <properties>
-      <kotlin.version>1.1.1</kotlin.version>
-      <jdk.version>1.8</jdk.version>
-    </properties>
-    
     <build>
+		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
