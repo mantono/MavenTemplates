@@ -8,13 +8,16 @@
     <artifactId>ARTIFACT-ID</artifactId>
     <version>0.1</version>
     <name>NAME</name>
-    
+
 	<properties>
-		<kotlin.version>1.1.2</kotlin.version>
-		<jdk.version>1.8</jdk.version>
-		<kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <kotlin.version>1.1.2</kotlin.version>
+        <junit.version>4.12</junit.version>
+        <jdk.version>1.8</jdk.version>
+        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <kotlin.compiler.jvmTarget>${jdk.version}</kotlin.compiler.jvmTarget>
 	</properties>
-    
+
     <dependencies>
 		<!--
 		<dependency>
@@ -23,7 +26,7 @@
 			<version>0.1</version>
 		</dependency>
 		-->
-            
+
 		<!-- For Kotlin support -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -49,21 +52,86 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
 		<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>ä
+		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <executions>
+                    <!-- Replacing default-compile as it is treated specially by maven -->
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <!-- Replacing default-testCompile as it is treated specially by maven -->
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
+                        <id>java-compile</id>
+                        <phase>compile</phase>
+                        <goals> <goal>compile</goal> </goals>
+                    </execution>
+                    <execution>
+                        <id>java-test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals> <goal>testCompile</goal> </goals>
+                    </execution>
+                </executions>
                 <!-- Make sure we compile with the correct Java version -->
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <configuration>
+                    <args>
+                        <arg>-Xcoroutines=enable</arg>
+                    </args>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Enable for execution of program via Maven
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <mainClass>com.mantono.MainClass</mainClass>
+                    <executable>maven</executable>
+                    <arguments>
+                        <argument>-Xms64m</argument>
+                        <argument>-Xmx512m</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+            -->
         </plugins>
     </build>
-    
+
 </project>
